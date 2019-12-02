@@ -11,7 +11,7 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * bedtools (v2.26.0). Only v2.26.0 is avaliable.
 
 ## Introduction
-"""
+```
 PASfinder_v1.1
 ├── bin
 │   ├── 1.processing_artificial_sequence.py
@@ -44,7 +44,7 @@ PASfinder_v1.1
 │   └── PASfinder_stepBystep.sh
 ├── PASfinder.sh
 └── README
-"""
+```
 
 ## Steps
 Generally, there are 4 steps:
