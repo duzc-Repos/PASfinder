@@ -54,10 +54,10 @@ PASfinder_v1.1
 
 ## Steps
 Generally, there are 4 steps:
-* preprocessing include processing artificial sequence and mapping to the reference genome
-* collapasing reads with same end and filter internal primed events
-* identification of reliable cleavage sites based on dynamic background model
-* clustering the close cleavage sites
+* preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
+* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py).
+* identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
+* clustering the close cleavage sites (6.clustering_cleavage_sites.py).
 
 ## Usage
 For usage, users need to know:
