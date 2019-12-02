@@ -12,11 +12,11 @@ Some softwares need to be installed and add to environment variables ($PATH):
 
 ## Introduction
 The following shows the Directory Structure:  
-__bin/__: The main scripts for this pipeline.  
-__custom_tools/__: Some useful tools to deal with well-organised annotation files (such as .gtf file from ensembl) and determine the distance for clustering.  
-__database/__: The necessary input files in the pipeline. Four species (human(hg19), mouse(mm9), fly(BDGP5) and Arabidopsis_thaliana(TAIR10)) are provided.  
-__example/__: Some demos on usage. see __Example__ part.  
-__PASfinder.sh__: The overall script for user usage. Some paths need to be set by users.  
+* __bin/__: The main scripts for this pipeline.  
+* __custom_tools/__: Some useful tools to deal with well-organised annotation files (such as .gtf file from ensembl) and determine the distance for clustering.  
+* __database/__: The necessary input files in the pipeline. Four species (human(hg19), mouse(mm9), fly(BDGP5) and Arabidopsis_thaliana(TAIR10)) are provided.  
+* __example/__: Some demos on usage. see __Example__ part.  
+* __PASfinder.sh__: The overall script for user usage. Some paths need to be set by users.  
 ```
 PASfinder_v1.1
 ├── bin
