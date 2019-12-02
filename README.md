@@ -9,6 +9,43 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * bowtie (version 1.2.2)
 * samtools (Version: 1.6 (using htslib 1.6)), availiable in version 1.2 and above.
 * bedtools (v2.26.0). Only v2.26.0 is avaliable.
+
+## Introduction
+"""
+PASfinder_v1.1
+├── bin
+│   ├── 1.processing_artificial_sequence.py
+│   ├── 2.bowtie_SE_mapping.py
+│   ├── 3.collapasing.py
+│   ├── 4.filter_internal_primed_events.py
+│   ├── 5.identifying_reliable_cleavage_sites.py
+│   ├── 6.clustering_cleavage_sites.py
+│   └── cleanUpdTSeq.r
+├── custom_tools
+│   ├── prepare_annotation.py
+│   ├── README
+│   └── resolving_cluster_distance.py
+├── database
+│   ├── Arabidopsis_thaliana.TAIR10.43.bed
+│   ├── BDGP5.chrom.sizes
+│   ├── Drosophila_melanogaster.BDGP5.70.bed
+│   ├── gencode.v19.annotation.bed
+│   ├── gencode.vM1.annotation.bed
+│   ├── hg19.chrom.sizes
+│   ├── mm9.chrom.sizes
+│   └── Tair10.chrom.sizes
+├── example
+│   ├── 0.rawdata
+│   │   ├── testchrX_3seq_5.fq.gz
+│   │   └── testchrX_PAS-seq_3.fq.gz
+│   ├── bowtie_index_chrX
+│   │   └── bowtie.sh
+│   ├── PASfinder_quickStart.sh
+│   └── PASfinder_stepBystep.sh
+├── PASfinder.sh
+└── README
+"""
+
 ## Steps
 Generally, there are 4 steps:
 * preprocessing include processing artificial sequence and mapping to the reference genome
