@@ -76,6 +76,10 @@ An example is provided in __./example/__ for quickstart and step by step using d
 
 ## Alternative polyadenylation identification
 ```
+python3 7.detecting_alternative_polyadenylation.py -c /path/to/control_1.cluster.bed /path/to/control_2.cluster.bed -t /path/to/treatment_1.cluster.bed /path/to/treatment_2.cluster.bed -p 0.05 -o /6.alternative_polyadenylation
+```
+
+```
 usage: 7.detecting_alternative_polyadenylation.py [-h] -c CONTROL
                                                   [CONTROL ...] -t TREATMENT
                                                   [TREATMENT ...]
