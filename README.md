@@ -8,7 +8,8 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * cutadapt (version 1.18)
 * bowtie (version 1.2.2)
 * samtools (Version: 1.6 (using htslib 1.6)), availiable in version 1.2 and above.
-* bedtools (v2.26.0). Only v2.26.0 is avaliable.
+* bedtools (v2.26.0). Only v2.26.0 is avaliable.      
+
 some R packages:
 * cleanUpdTSeq (v1.16.0, optional): filtering internal primed events by bayes classifer
 * DEXSeq (v1.24.4, optional): for alternative polyadenylation events identification.
