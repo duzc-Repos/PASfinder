@@ -61,7 +61,6 @@ PASfinder_v1.1
 │   │   └── bowtie.sh
 │   ├── PASfinder_quickStart.sh
 ├── PASfinder.sh
-└── README
 ```
 
 ## 2. Usage
