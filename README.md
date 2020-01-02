@@ -63,13 +63,19 @@ PASfinder_v1.1
 ```
 
 ## 2. Usage
+### 2.0 Preparation
 For usage, users need to know:
 * the type of library (sense or antisense) ("-s 5" for sense, "-s 3" for anti-sense)
 * how long the artificial sequence existed at the 5' end of reads ("-l 6": the length of artificial sequence)
 * set the pathes to needed file, like bowtie index, genome annotation, genemo fasta, geome size, etc.
 * input <*.fastq or *.fastq.gz> and output path
-### 2.0 Preparation
-
+### 2.1 Quick start
+```
+cd ./example/bowtie_index_chrX
+bash bowtie.sh
+cd ../
+bash PASfinder_quickStart.sh
+```
 
 ## Example of detecting cleavage sites
 __./PSItools.sh__ is provided for run with default parameter, some paths need to be set by users. 
