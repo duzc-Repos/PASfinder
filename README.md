@@ -159,7 +159,9 @@ python3 ${PASfinder}/bin/6.clustering_cleavage_sites.py -i ${output_path}/4.reli
 ### 2.3 Detecting alternative polyadenylation
 After identifying the cleavage sites, the results can be subject to detect the alternative polyadenylation. At least 2 samples are required by both control and treatment conditions.
 ```
-python3 7.detecting_alternative_polyadenylation.py -c /path/to/control_1.cluster.bed /path/to/control_2.cluster.bed -t /path/to/treatment_1.cluster.bed /path/to/treatment_2.cluster.bed -p 0.05 -o /6.alternative_polyadenylation
+control=<path to control samples>                              # 
+treatment=<path to treatment samples>                          #
+python3 ${PASfinder}/bin/7.detecting_alternative_polyadenylation.py -c ${control} -t ${treatment} -p 0.05 -o ${output_path}/6.alternative_polyadenylation
 ```
 ```
 usage: 7.detecting_alternative_polyadenylation.py [-h] -c CONTROL
