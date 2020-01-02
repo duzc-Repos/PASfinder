@@ -1,8 +1,8 @@
 # PASfinder
 
-This pipeline is designed for identification of cleavage sites from 3' end sequencing.
+This pipeline is designed for identification of cleavage sites and detection of alternative polyadenylation from 3' end sequencing.
 
-## Implementation:
+## 0. Prerequisites:
 This pipeline is implemented on Liunx using PYTHON 3.x with SciPy, NumPy, os, multiprocessing, datatime and argparse. 
 Some softwares need to be installed and add to environment variables ($PATH):
 * cutadapt (version 1.18)
@@ -11,18 +11,20 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * bedtools (v2.26.0). Only v2.26.0 is avaliable.
 * DEXSeq (v1.24.4, optional): for alternative polyadenylation events identification.
 
-## Introduction
-Generally, there are 4 steps:
+## 1. Introduction
+### 1.1 Main Steps
+Generally, there are 5 steps:
 * preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
-* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py).
+* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py, cleanUpdTSeq.r).
 * identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
 * clustering the close cleavage sites (6.clustering_cleavage_sites.py).
-
+* detecting alternative polyadenylation (7.detecting_alternative_polyadenylation.py, DEXSeq.r)
+### 1.2 Directory Structure
 The following shows the Directory Structure:  
 * __bin/__: The main scripts for this pipeline.  
 * __custom_tools/__: Some useful tools to deal with well-organised annotation files (such as .gtf file from ensembl) and determine the distance for clustering.  
 * __database/__: The necessary input files in the pipeline. Four species (human(hg19), mouse(mm9), fly(BDGP5) and Arabidopsis_thaliana(TAIR10)) are provided.  
-* __example/__: Some demos on usage. see __Example__ part.  
+* __example/__: Some demos on usage. see __Usage__ part.  
 * __PASfinder.sh__: The overall script for user usage. Some paths need to be set by users.  
 ```
 PASfinder_v1.1
@@ -60,12 +62,14 @@ PASfinder_v1.1
 └── README
 ```
 
-## Usage
+## 2. Usage
 For usage, users need to know:
 * the type of library (sense or antisense) ("-s 5" for sense, "-s 3" for anti-sense)
 * how long the artificial sequence existed at the 5' end of reads ("-l 6": the length of artificial sequence)
 * set the pathes to needed file, like bowtie index, genome annotation, genemo fasta, geome size, etc.
 * input <*.fastq or *.fastq.gz> and output path
+### 2.0 Preparation
+
 
 ## Example of detecting cleavage sites
 __./PSItools.sh__ is provided for run with default parameter, some paths need to be set by users. 
