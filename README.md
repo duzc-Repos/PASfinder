@@ -12,6 +12,12 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * DEXSeq (v1.24.4, optional): for alternative polyadenylation events identification.
 
 ## Introduction
+Generally, there are 4 steps:
+* preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
+* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py).
+* identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
+* clustering the close cleavage sites (6.clustering_cleavage_sites.py).
+
 The following shows the Directory Structure:  
 * __bin/__: The main scripts for this pipeline.  
 * __custom_tools/__: Some useful tools to deal with well-organised annotation files (such as .gtf file from ensembl) and determine the distance for clustering.  
@@ -53,13 +59,6 @@ PASfinder_v1.1
 ├── PASfinder.sh
 └── README
 ```
-
-## Steps
-Generally, there are 4 steps:
-* preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
-* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py).
-* identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
-* clustering the close cleavage sites (6.clustering_cleavage_sites.py).
 
 ## Usage
 For usage, users need to know:
