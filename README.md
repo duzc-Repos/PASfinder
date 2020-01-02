@@ -71,11 +71,62 @@ For usage, users need to know:
 * input <*.fastq or *.fastq.gz> and output path
 ### 2.1 Quick start
 ```
-cd ./example/bowtie_index_chrX
+cd /path/to/example/bowtie_index_chrX
 bash bowtie.sh
 cd ../
 bash PASfinder_quickStart.sh
 ```
+### 2.2 Step by Step
+#### Step 0: preparation
+```
+PASfinder=<path to "PASfinder_script_v1.1">                    # /path/to/example
+sense_library_input_files=<path to raw fastq>                  # ${PASfinder}/example/*5.fq.gz
+antisense_library_input_files=<path to raw fastq>              # ${PASfinder}/example/*3.fq.gz
+output_path=<paht to output path>                              # ${PASfinder}/example
+adaptor=<sequence of adaptor>                                  # agatcggaagagc (illumina)
+bowtie_index=<path to bowtie index>                            # ${PASfinder}/example/bowtie_index_chrX/chrX.fa
+genome_size=<path to genome size, like "hg19.chrom.sizes">     # ${PASfinder}/database/hg19.chrom.sizes
+genome_fa=<path to genome fasta file>                          # ${PASfinder}/example/bowtie_index_chrX/chrX.fa
+annotation=<path to processed species annoataion file>         # ${PASfinder}/database/gencode.v19.annotation.bed
+end5seq=<artificial sequence at 5 end of reads >               # 6
+core=<#CPU>                                                    # 20
+extend=<extend __bp downstream of transcripts>                 # 1000
+polyA_length=<reads with at least __As are regarded as CS>     # 8 #only use for sense library
+p=<P-value>                                                    # 0.05
+```
+#### Step 1: preprocessing include processing artificial sequence
+For sense library
+```
+python3 ${PAStools}/bin/1.processing_artificial_sequence.py -l ${end5seq} -i ${sense_library_input_files} -s 5 -a ${adaptor} -o ${output_path}/1.preprocessing
+```
+For antisense library
+```
+python3 ${PAStools}/bin/1.processing_artificial_sequence.py -i ./0.rawdata/*3.fq.gz -a agatcggaagagc -s 3 -o ./1.preprocessing
+```
+For detail:
+```
+python3 ${PAStools}/bin/1.processing_artificial_sequence.py -h
+```
+#### Step2
+```
+python3 ${PSItools}/2.bowtie_SE_mapping.py -in ${bowtie_index} -i ${output_path}/1.preprocessing/*.clean.fq.gz -o  ${output_path}/2.mapping
+```
+For detail:
+```
+python3 ${PSItools}/2.bowtie_SE_mapping.py -h
+```
+
+
+
+
+
+Generally, there are 5 steps:
+* preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
+* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py, cleanUpdTSeq.r).
+* identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
+* clustering the close cleavage sites (6.clustering_cleavage_sites.py).
+* detecting alternative polyadenylation (7.detecting_alternative_polyadenylation.py, DEXSeq.r)
+
 
 ## Example of detecting cleavage sites
 __./PSItools.sh__ is provided for run with default parameter, some paths need to be set by users. 
