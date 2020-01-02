@@ -9,6 +9,8 @@ Some softwares need to be installed and add to environment variables ($PATH):
 * bowtie (version 1.2.2)
 * samtools (Version: 1.6 (using htslib 1.6)), availiable in version 1.2 and above.
 * bedtools (v2.26.0). Only v2.26.0 is avaliable.
+some R packages:
+* cleanUpdTSeq (v1.16.0, optional): filtering internal primed events by bayes classifer
 * DEXSeq (v1.24.4, optional): for alternative polyadenylation events identification.
 
 ## 1. Introduction
@@ -57,7 +59,6 @@ PASfinder_v1.1
 │   ├── bowtie_index_chrX
 │   │   └── bowtie.sh
 │   ├── PASfinder_quickStart.sh
-│   └── PASfinder_stepBystep.sh
 ├── PASfinder.sh
 └── README
 ```
@@ -70,7 +71,7 @@ For usage, users need to know:
 * set the pathes to needed file, like bowtie index, genome annotation, genemo fasta, geome size, etc.
 * input <*.fastq or *.fastq.gz> and output path
 ### 2.1 Quick start
-An example is provided in __./example/__ for quickstart and step by step using data from 3'-seq, PAS-seq on chrX. Bowtie index should be build and a script __bowtie.sh__ is provided for this process in __./example/bowtie_index__.
+An example is provided in __./example/__ for quickstart using data from 3'-seq, PAS-seq on chrX. Bowtie index should be build and a script __bowtie.sh__ is provided for this process in __./example/bowtie_index__.
 ```
 cd /path/to/example/bowtie_index_chrX
 bash bowtie.sh
@@ -158,7 +159,6 @@ python3 ${PASfinder}/bin/6.clustering_cleavage_sites.py -i ${output_path}/4.reli
 ```
 python3 7.detecting_alternative_polyadenylation.py -c /path/to/control_1.cluster.bed /path/to/control_2.cluster.bed -t /path/to/treatment_1.cluster.bed /path/to/treatment_2.cluster.bed -p 0.05 -o /6.alternative_polyadenylation
 ```
-
 ```
 usage: 7.detecting_alternative_polyadenylation.py [-h] -c CONTROL
                                                   [CONTROL ...] -t TREATMENT
@@ -190,5 +190,3 @@ optional arguments:
   -fc LOG2FC, --log2fc LOG2FC
                         The threshold of fold change (log2 transformed).
 ```
-
-
