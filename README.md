@@ -3,7 +3,7 @@
 This pipeline is designed for identification of cleavage sites and detection of alternative polyadenylation from 3' end sequencing.
 
 ## 0. Prerequisites:
-This pipeline is implemented on Liunx using PYTHON 3.x with SciPy, NumPy, os, multiprocessing, datatime and argparse. 
+This pipeline is implemented on __Liunx__ using PYTHON 3.x with SciPy, NumPy, os, multiprocessing, datatime and argparse. 
 Some softwares need to be installed and add to environment variables ($PATH):
 * cutadapt (version 1.18)
 * bowtie (version 1.2.2)
@@ -70,6 +70,7 @@ For usage, users need to know:
 * set the pathes to needed file, like bowtie index, genome annotation, genemo fasta, geome size, etc.
 * input <*.fastq or *.fastq.gz> and output path
 ### 2.1 Quick start
+An example is provided in __./example/__ for quickstart and step by step using data from 3'-seq, PAS-seq on chrX. Bowtie index should be build and a script __bowtie.sh__ is provided for this process in __./example/bowtie_index__.
 ```
 cd /path/to/example/bowtie_index_chrX
 bash bowtie.sh
@@ -97,44 +98,63 @@ p=<P-value>                                                    # 0.05
 #### Step 1: preprocessing include processing artificial sequence
 For sense library
 ```
-python3 ${PAStools}/bin/1.processing_artificial_sequence.py -l ${end5seq} -i ${sense_library_input_files} -s 5 -a ${adaptor} -o ${output_path}/1.preprocessing
+python3 ${PASfinder}/bin/1.processing_artificial_sequence.py -l ${end5seq} -i ${sense_library_input_files} -s 5 -a ${adaptor} -o ${output_path}/1.preprocessing
 ```
 For antisense library
 ```
-python3 ${PAStools}/bin/1.processing_artificial_sequence.py -i ./0.rawdata/*3.fq.gz -a agatcggaagagc -s 3 -o ./1.preprocessing
+python3 ${PASfinder}/bin/1.processing_artificial_sequence.py -i ./0.rawdata/*3.fq.gz -a agatcggaagagc -s 3 -o ./1.preprocessing
 ```
 For detail:
 ```
-python3 ${PAStools}/bin/1.processing_artificial_sequence.py -h
+python3 ${PASfinder}/bin/1.processing_artificial_sequence.py -h
 ```
-#### Step2
+#### Step2: mapping to the reference genome
 ```
-python3 ${PSItools}/2.bowtie_SE_mapping.py -in ${bowtie_index} -i ${output_path}/1.preprocessing/*.clean.fq.gz -o  ${output_path}/2.mapping
+python3 ${PASfinder}/2.bowtie_SE_mapping.py -in ${bowtie_index} -i ${output_path}/1.preprocessing/*.clean.fq.gz -o  ${output_path}/2.mapping
 ```
 For detail:
 ```
-python3 ${PSItools}/2.bowtie_SE_mapping.py -h
+python3 ${PASfinder}/2.bowtie_SE_mapping.py -h
 ```
-
-
-
-
-
-Generally, there are 5 steps:
-* preprocessing include processing artificial sequence (1.processing_artificial_sequence.py) and mapping to the reference genome (2.bowtie_SE_mapping.py).
-* collapasing reads with same end (3.collapasing.py) and filter internal primed events (4.filter_internal_primed_events.py, cleanUpdTSeq.r).
-* identification of reliable cleavage sites based on dynamic background model (5.identifying_reliable_cleavage_sites.py).
-* clustering the close cleavage sites (6.clustering_cleavage_sites.py).
-* detecting alternative polyadenylation (7.detecting_alternative_polyadenylation.py, DEXSeq.r)
-
-
-## Example of detecting cleavage sites
-__./PSItools.sh__ is provided for run with default parameter, some paths need to be set by users. 
-For custom usage, user can see scripts in __./bin/__ for each steps and adjust parameters according to the help in scripts. 
-
-An example is provided in __./example/__ for quickstart and step by step using data from 3'-seq, PAS-seq on chrX. Bowtie index should be build and a script __bowtie.sh__ is provided for this process in __./example/bowtie_index__.
-
-## Alternative polyadenylation identification
+#### Step 3: collapasing reads with same end
+For sense library
+```
+python3 ${PASfinder}/bin/3.collapasing.py -i ${output_path}/2.mapping/*5.sort.bam -s 5 -l 8 -o ${output_path}/3.filter_internal_primed_events -gs ${genome_size}
+```
+For antisense library
+```
+python3 ${PASfinder}/bin/3.collapasing.py -i ${output_path}/2.mapping/*3.sort.bam -s 3 -o ${output_path}/3.filter_internal_primed_events -gs ${genome_size}
+```
+For detail:
+```
+python3 ${PASfinder}/bin/3.collapasing.py -h
+```
+#### Step 4: filter internal primed events
+Using heuristic method (default):
+```
+python3 ${PASfinder}/bin/4.filter_internal_primed_events.py  -i ${output_path}/3.filter_internal_primed_events/*.pCS.bed -g ${genome_fa} -o ${output_path}/3.filter_internal_primed_events/ -m heuristic
+```
+Using bayes classifer:
+```
+python3 ${PASfinder}/bin/4.filter_internal_primed_events.py  -i ${output_path}/3.filter_internal_primed_events/*.pCS.bed -g ${genome_fa} -o ${output_path}/3.filter_internal_primed_events/ -m cleanUpdTseq
+```
+For details:
+```
+python3 ${PASfinder}/bin/4.filter_internal_primed_events.py -h
+```
+#### Step 5: identification of reliable cleavage sites based on dynamic background model
+```
+python3 ${PASfinder}/bin/5.identifying_reliable_cleavage_sites.py -j ${core} -e ${extend} -r ${annotation} -i ${output_path}/3.filter_internal_primed_events/*.heuristic -o ${output_path}/4.reliable_cleavage_sites -p ${p}
+```
+or
+```
+python3 ${PASfinder}/bin/5.identifying_reliable_cleavage_sites.py -j ${core} -e ${extend} -r ${annotation} -i ${output_path}/3.filter_internal_primed_events/*.cleanUpdTSeq -o ${output_path}/4.reliable_cleavage_sites -p ${p}
+```
+#### Step 6: clustering the close cleavage sites
+```
+python3 ${PASfinder}/bin/6.clustering_cleavage_sites.py -i ${output_path}/4.reliable_cleavage_sites/*.rCS.bed -o ${output_path}/5.cluster -p ${p}
+```
+### 2.3 Alternative polyadenylation identification
 ```
 python3 7.detecting_alternative_polyadenylation.py -c /path/to/control_1.cluster.bed /path/to/control_2.cluster.bed -t /path/to/treatment_1.cluster.bed /path/to/treatment_2.cluster.bed -p 0.05 -o /6.alternative_polyadenylation
 ```
