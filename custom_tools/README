@@ -1,0 +1,3 @@
+python3 prepare_annotation.py -i <*.gtf> -o <processed gtf>
+python3 resolving_cluster_distance.py <path to *.rCS.bed> >*.dist
+
