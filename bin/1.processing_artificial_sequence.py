@@ -114,9 +114,9 @@ def cut_adaptor(infile, adaptor_sequence, m, outdir, flag):
     """
     out = os.path.join(outdir, "%s.rmAdaptor.fq"%(os.path.split(infile)[-1]))
     if flag == 5:
-        cmd = "cutadapt -f fastq -q 30,0 -a %s -m %d --max-n 0.25 --trim-n --quiet -o %s %s"%(adaptor_sequence, m, out, infile)
+        cmd = "cutadapt -q 30,0 -a %s -m %d --max-n 0.25 --trim-n --quiet -o %s %s"%(adaptor_sequence, m, out, infile)
     elif flag == 3:
-        cmd = "cutadapt -f fastq -q 0,30 -a %s -m %d  -e 0.2 --max-n 0.25 --trim-n --quiet -o %s %s"%(adaptor_sequence, m, out, infile)
+        cmd = "cutadapt -q 0,30 -a %s -m %d  -e 0.2 --max-n 0.25 --trim-n --quiet -o %s %s"%(adaptor_sequence, m, out, infile)
     print("     ", cmd)
     os.system(cmd)
     return out
@@ -162,13 +162,13 @@ def trim_polyA_or_polyT_tail(input_file, m, p, outdir, flag, base, overlap, flag
 
     out_name = os.path.join(outdir, "%s.trimPoly%s.fq"%(os.path.split(input_file)[-1], base))
     if flag == 5:
-        cmd = 'cutadapt -f fastq -a A{%d} -m %s -n 2 -e 0.1 --quiet -O %d -o %s %s'%(p, m, overlap, out_name, input_file)
+        cmd = 'cutadapt -a A{%d} -m %s -n 2 -e 0.1 --quiet -O %d -o %s %s'%(p, m, overlap, out_name, input_file)
     elif flag == 3:
         a = 'T'*p
         if flag_discard:
-            cmd = 'cutadapt -f fastq -g %s -m %s -n 2 -e 0.2 --discard-untrimmed --quiet -O %d -o %s %s'%(a, m, overlap, out_name, input_file)
+            cmd = 'cutadapt -g %s -m %s -n 2 -e 0.2 --discard-untrimmed --quiet -O %d -o %s %s'%(a, m, overlap, out_name, input_file)
         else:
-            cmd = 'cutadapt -f fastq -g %s -m %s -n 2 -e 0.2 --quiet -O %d -o %s %s'%(a, m, overlap, out_name, input_file)
+            cmd = 'cutadapt -g %s -m %s -n 2 -e 0.2 --quiet -O %d -o %s %s'%(a, m, overlap, out_name, input_file)
     print("     ", cmd)
     os.system(cmd)
     return out_name
